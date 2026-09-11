@@ -1,0 +1,15 @@
+{
+  "_provenance": "REAL Stellar Testnet data — the only non-synthetic fixture in this directory (see fixtures/README.md). Obtained by submitting an actual signed Payment transaction to https://horizon-testnet.stellar.org: source GCZ5Q3U5YQE6DCGAQV3CTVZ3POAXZDFM2NCVKKIMIL6TXPFEFCWM6IO7 (funded), destination GCTUVNPBMQCVLLKKO6KRDAMP7U73YFO5BYKCDRBOWYSJ2QCD7QQPX2JS (deliberately left unfunded/nonexistent), amount 10000000 stroops (1 XLM) native, submitted by the user (the assistant never had the signing secret key). The user reported the resulting result_codes/envelope_xdr/result_xdr/HTTP-400 status; the assistant independently re-decoded envelope_xdr and result_xdr with this project's own @stellar-txguard/xdr package and cross-verified them: the decoded envelope's source/destination/amount match the intended submission exactly, result_xdr decodes to tx_failed/op_no_destination as reported, and a transaction hash independently recomputed from envelope_xdr via @stellar/stellar-sdk (Testnet network passphrase) matched the hash the user reported, byte-for-byte (transaction hash: 89a3b23e9b7b0e946fedbd405dbbcf095b90d777c36a6fe9abba0b56ca365247). The top-level type/title/detail fields below are Horizon's standard, documented boilerplate for any transaction_failed response (not independently re-verified against this specific submission's wrapper text, only the extras payload was).",
+  "type": "https://stellar.org/horizon-errors/transaction_failed",
+  "title": "Transaction Failed",
+  "status": 400,
+  "detail": "The transaction failed when submitted to the stellar network.",
+  "extras": {
+    "envelope_xdr": "AAAAAgAAAACz2G6dxAnhiMCFdinXO3uBfIys00VVKQxC/Tu8pCiszwAAAGQARlmjAAAAAQAAAAEAAAAAAAAAAAAAAABqo2EkAAAAAAAAAAEAAAAAAAAAAQAAAACnSrXhZAVVrUp3lRGBj/0/vBXdDhQhxC62JJ1AQ/wg+wAAAAAAAAAAAJiWgAAAAAAAAAABpCiszwAAAEBpmMVAhFPBrIIkuRDR8ad9/OlezqPNiM8SN+WXzF5uFi757Ki3VMKZYODuD1irvX+tgzXHOtxV/0jHNz5szkED",
+    "result_xdr": "AAAAAAAAAGT/////AAAAAQAAAAAAAAAB////+wAAAAA=",
+    "result_codes": {
+      "transaction": "tx_failed",
+      "operations": ["op_no_destination"]
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "_synthetic": "Example payload from Horizon's own OpenAPI spec for POST /transactions_async (txsub_async_oapi.yaml, HTTP 409 response), fetched during Milestone 4's audit. The hash is a fixed documentation placeholder reused across several of Horizon's own examples, not from a real submitted transaction.",
+  "error_result_xdr": "",
+  "tx_status": "DUPLICATE",
+  "hash": "6cbb7f714bd08cea7c30cab7818a35c510cbbfc0a6aa06172a1e94146ecf0165"
+}

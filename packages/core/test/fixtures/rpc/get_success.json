@@ -1,0 +1,16 @@
+{
+  "_synthetic": "Synthetic stellar-rpc getTransaction result payload for a successful transaction. Not a real transaction. txHash echoes the hash queried for (stellar-rpc always includes it). createdAt is a JSON string here deliberately — the singular getTransaction endpoint encodes it as a string, unlike plural getTransactions which uses a number.",
+  "status": "SUCCESS",
+  "txHash": "aaaa1111aaaa1111aaaa1111aaaa1111aaaa1111aaaa1111aaaa1111aaaa1111",
+  "latestLedger": 1000010,
+  "latestLedgerCloseTime": "1704067800",
+  "oldestLedger": 999000,
+  "oldestLedgerCloseTime": "1704000000",
+  "applicationOrder": 1,
+  "feeBump": false,
+  "envelopeXdr": "AAAAAgAAAAA...synthetic...",
+  "resultXdr": "AAAAAAAAAGQAAAAA...synthetic...",
+  "resultMetaXdr": "AAAAAwAAAAA...synthetic...",
+  "ledger": 1000005,
+  "createdAt": "1704067200"
+}

@@ -1,0 +1,7 @@
+{
+  "_synthetic": "Synthetic stellar-rpc sendTransaction result payload when the node recognizes the submission as a duplicate of one it already knows about. Not a real transaction.",
+  "status": "DUPLICATE",
+  "hash": "8888888888888888888888888888888888888888888888888888888888888888",
+  "latestLedger": 1000017,
+  "latestLedgerCloseTime": "1704068500"
+}

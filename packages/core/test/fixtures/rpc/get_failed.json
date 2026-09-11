@@ -1,0 +1,16 @@
+{
+  "_synthetic": "Synthetic stellar-rpc getTransaction result payload for a confirmed failure. Not a real transaction. getTransaction does not decode resultXdr, so no result code is present here.",
+  "status": "FAILED",
+  "txHash": "cccc3333cccc3333cccc3333cccc3333cccc3333cccc3333cccc3333cccc3333",
+  "latestLedger": 1000013,
+  "latestLedgerCloseTime": "1704068100",
+  "oldestLedger": 999000,
+  "oldestLedgerCloseTime": "1704000000",
+  "applicationOrder": 1,
+  "feeBump": false,
+  "envelopeXdr": "AAAAAgAAAAA...synthetic...",
+  "resultXdr": "AAAAAAAAAAD/////AAAAAQAAAAAAAAAB/////gAAAAA=",
+  "resultMetaXdr": "AAAAAwAAAAA...synthetic...",
+  "ledger": 1000007,
+  "createdAt": "1704067400"
+}

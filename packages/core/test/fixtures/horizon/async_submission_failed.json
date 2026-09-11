@@ -1,0 +1,11 @@
+{
+  "_synthetic": "Example payload from Horizon's own OpenAPI spec for POST /transactions_async (txsub_async_oapi.yaml, HTTP 500 'Transaction Submission Failed' example), fetched during Milestone 4's audit. Represents a Horizon-to-Core communication failure — Horizon itself does not know whether stellar-core received the transaction — not a stellar-core submission-outcome classification. normalizeHorizonTransaction() deliberately does not model this as a transaction state.",
+  "type": "transaction_submission_failed",
+  "title": "Transaction Submission Failed",
+  "status": 500,
+  "detail": "Could not submit transaction to stellar-core. The `extras.error` field on this response contains further details.",
+  "extras": {
+    "envelope_xdr": "",
+    "error": "Error details here"
+  }
+}

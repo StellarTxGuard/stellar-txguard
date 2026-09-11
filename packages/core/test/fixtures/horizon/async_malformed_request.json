@@ -1,0 +1,10 @@
+{
+  "_synthetic": "Example payload from Horizon's own OpenAPI spec for POST /transactions_async (txsub_async_oapi.yaml, HTTP 400 'Transaction Malformed' example), fetched during Milestone 4's audit. Represents a Horizon-level request-validation problem (the envelope XDR in the request couldn't even be parsed), not a stellar-core submission outcome — normalizeHorizonTransaction() deliberately does not model this as a transaction state.",
+  "type": "transaction_malformed",
+  "title": "Transaction Malformed",
+  "status": 400,
+  "detail": "Horizon could not decode the transaction envelope in this request. A transaction should be an XDR TransactionEnvelope struct encoded using base64. The envelope read from this request is echoed in the `extras.envelope_xdr` field of this response for your convenience.",
+  "extras": {
+    "envelope_xdr": ""
+  }
+}

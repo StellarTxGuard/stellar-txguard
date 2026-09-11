@@ -1,0 +1,17 @@
+{
+  "_synthetic": "Synthetic Horizon GET /transactions/{hash} record for a failed transaction. Not a real transaction. Horizon does not decode result_xdr on this resource, so no result_codes are present here.",
+  "id": "2222222222222222222222222222222222222222222222222222222222222222",
+  "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+  "ledger": 1000002,
+  "created_at": "2024-01-01T00:05:00Z",
+  "source_account": "GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "source_account_sequence": "4611686018427388020",
+  "successful": false,
+  "fee_charged": "100",
+  "max_fee": "100",
+  "operation_count": 1,
+  "envelope_xdr": "AAAAAgAAAAA...synthetic...",
+  "result_xdr": "AAAAAAAAAAD/////AAAAAQAAAAAAAAAB/////gAAAAA=",
+  "result_meta_xdr": "AAAAAwAAAAA...synthetic...",
+  "memo_type": "none"
+}

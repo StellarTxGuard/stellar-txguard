@@ -1,0 +1,30 @@
+{
+  "_synthetic": "Every XDR value below was generated locally by generate-fixtures.mjs using @stellar/stellar-xdr-json's encoder. None of it is captured from real network traffic; addresses and hashes are random placeholders.",
+  "accounts": {
+    "source": "GCUPZQN3HUBDAGICR76WEI2TOQVCIE5VMCU3H6KNGME2WPYHCQK3AQR7",
+    "feeSource": "GAZCHFU2CEK6F7ASRN4Y26D4FZKDJCOTHSYDWTCQDWCTFL6WFWU6OF3N",
+    "dest": "GAS6UD65LW6HPUGD5ZPTFY2SAPEKLQZ4VNXVLZWWDTFFD5GNWEOZ7HRR"
+  },
+  "results": {
+    "success": "AAAAAAAAAGQAAAAAAAAAAAAAAAA=",
+    "bad_seq": "AAAAAAAAAGT////7AAAAAA==",
+    "insufficient_fee": "AAAAAAAAAGT////3AAAAAA==",
+    "insufficient_balance": "AAAAAAAAAGT////5AAAAAA==",
+    "no_source_account": "AAAAAAAAAGT////4AAAAAA==",
+    "payment_no_trust": "AAAAAAAAAGT/////AAAAAQAAAAAAAAAB////+gAAAAA=",
+    "payment_underfunded": "AAAAAAAAAGT/////AAAAAQAAAAAAAAAB/////gAAAAA=",
+    "path_payment_offer_cross_self": "AAAAAAAAAGT/////AAAAAQAAAAAAAAAC////9QAAAAA=",
+    "path_payment_over_sendmax": "AAAAAAAAAGT/////AAAAAQAAAAAAAAAC////9AAAAAA=",
+    "path_payment_under_destmin": "AAAAAAAAAGT/////AAAAAQAAAAAAAAAN////9AAAAAA=",
+    "unsupported_operation": "AAAAAAAAAGT/////AAAAAQAAAAAAAAAA/////QAAAAA=",
+    "fee_bump_success": "AAAAAAAAAGQAAAABeVI439etJpPkPcKZJ8cmqM5cJ8ugxFClfFEYBgntKmUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "fee_bump_failed_bad_seq": "AAAAAAAAAGT////zTKPfTnk6jHiIF3YEd2LOfLlAhiCvYg5FxeVbJ6iooQQAAAAAAAAAAP////sAAAAAAAAAAA==",
+    "fee_bump_failed_payment_underfunded": "AAAAAAAAAGT////zPr2ojAGKKdnNStjOm8EjEkrc3qv4XhoIhbj82WC6UhUAAAAAAAAAAP////8AAAABAAAAAAAAAAH////+AAAAAAAAAAA="
+  },
+  "envelopes": {
+    "plain": "AAAAAgAAAACo/MG7PQIwGQKP/WIjU3QqJBO1YKmz+U0zCas/BxQVsAAAAGRAAAAAAAAAYQAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    "with_time_bounds": "AAAAAgAAAACo/MG7PQIwGQKP/WIjU3QqJBO1YKmz+U0zCas/BxQVsAAAAGRAAAAAAAAAkgAAAAEAAAAAZVPxAAAAAABrSdIAAAAAAAAAAAAAAAAAAAAAAA==",
+    "fee_bump": "AAAABQAAAAAyI5aaERXi/BKLeY14fC5UNInTPLA7TFAdhTKv1i2p5wAAAAAAAADIAAAAAgAAAACo/MG7PQIwGQKP/WIjU3QqJBO1YKmz+U0zCas/BxQVsAAAAGQAAAAAAAAwOQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+    "legacy_v0": "AAAAAFQoLt2Lt+QCQrTD+VsczaC7Omtsi0v0wZHlnNV7oOOJAAAAZEAAAAAAAABhAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+  }
+}

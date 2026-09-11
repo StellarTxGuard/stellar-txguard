@@ -1,0 +1,16 @@
+{
+  "_synthetic": "Synthetic stellar-rpc getTransaction result payload for a successful fee-bump transaction. Not a real transaction.",
+  "status": "SUCCESS",
+  "txHash": "dddd4444dddd4444dddd4444dddd4444dddd4444dddd4444dddd4444dddd4444",
+  "latestLedger": 1000011,
+  "latestLedgerCloseTime": "1704067900",
+  "oldestLedger": 999000,
+  "oldestLedgerCloseTime": "1704000000",
+  "applicationOrder": 1,
+  "feeBump": true,
+  "envelopeXdr": "AAAABQAAAAA...synthetic...",
+  "resultXdr": "AAAAAAAAAMgAAAAB...synthetic...",
+  "resultMetaXdr": "AAAAAwAAAAA...synthetic...",
+  "ledger": 1000006,
+  "createdAt": "1704067300"
+}

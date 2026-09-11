@@ -1,0 +1,26 @@
+{
+  "_synthetic": "Synthetic Horizon GET /transactions/{hash} record for a successful fee-bump transaction. Not a real transaction.",
+  "id": "3333333333333333333333333333333333333333333333333333333333333333",
+  "hash": "3333333333333333333333333333333333333333333333333333333333333333",
+  "ledger": 1000003,
+  "created_at": "2024-01-01T00:10:00Z",
+  "source_account": "GBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+  "source_account_sequence": "4611686018427388100",
+  "successful": true,
+  "fee_charged": "200",
+  "max_fee": "200",
+  "operation_count": 1,
+  "envelope_xdr": "AAAABQAAAAA...synthetic...",
+  "result_xdr": "AAAAAAAAAMgAAAAB...synthetic...",
+  "result_meta_xdr": "AAAAAwAAAAA...synthetic...",
+  "memo_type": "none",
+  "fee_bump_transaction": {
+    "hash": "3333333333333333333333333333333333333333333333333333333333333333",
+    "signatures": ["synthetic-signature"]
+  },
+  "inner_transaction": {
+    "hash": "4444444444444444444444444444444444444444444444444444444444444444",
+    "max_fee": "100",
+    "signatures": ["synthetic-signature"]
+  }
+}

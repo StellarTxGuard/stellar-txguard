@@ -1,0 +1,13 @@
+{
+  "_synthetic": "Synthetic stellar-rpc getTransaction result payload when the node has no record of the transaction. Not a real transaction. stellar-rpc always echoes back txHash (the hash that was queried for), even for NOT_FOUND.",
+  "status": "NOT_FOUND",
+  "txHash": "bbbb2222bbbb2222bbbb2222bbbb2222bbbb2222bbbb2222bbbb2222bbbb2222",
+  "applicationOrder": 0,
+  "feeBump": false,
+  "ledger": 0,
+  "createdAt": "0",
+  "latestLedger": 1000012,
+  "latestLedgerCloseTime": "1704068000",
+  "oldestLedger": 999000,
+  "oldestLedgerCloseTime": "1704000000"
+}

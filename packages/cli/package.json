@@ -1,0 +1,29 @@
+{
+  "name": "@stellar-txguard/cli",
+  "version": "0.1.0",
+  "description": "Command-line analysis tool for StellarTxGuard: inspect a Stellar transaction and ask whether retrying it is safe. Never signs or submits anything.",
+  "type": "module",
+  "bin": {
+    "txguard": "bin/txguard.js"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "bin",
+    "src"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "lint": "find src bin -name \"*.js\" -print0 | xargs -0 -n1 node --check"
+  },
+  "dependencies": {
+    "@stellar-txguard/core": "0.1.0",
+    "@stellar-txguard/xdr": "0.1.0"
+  },
+  "engines": {
+    "node": ">=18.3.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@stellar-txguard/core",
+  "version": "0.1.0",
+  "description": "Deterministic core engine that evaluates whether a Stellar transaction is safe to retry.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "lint": "find src -name \"*.js\" -print0 | xargs -0 -n1 node --check"
+  },
+  "devDependencies": {
+    "@stellar-txguard/xdr": "0.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

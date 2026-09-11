@@ -1,0 +1,9 @@
+{
+  "_synthetic": "Synthetic stellar-rpc sendTransaction result payload for a synchronously rejected submission. Not a real transaction. errorResultXdr and diagnosticEventsXdr are raw/undecoded.",
+  "status": "ERROR",
+  "hash": "7777777777777777777777777777777777777777777777777777777777777777",
+  "latestLedger": 1000016,
+  "latestLedgerCloseTime": "1704068400",
+  "errorResultXdr": "AAAAAAAAAAD/////AAAAAAAAAAA=",
+  "diagnosticEventsXdr": ["AAAAAQAAAAAAAAAA...synthetic..."]
+}

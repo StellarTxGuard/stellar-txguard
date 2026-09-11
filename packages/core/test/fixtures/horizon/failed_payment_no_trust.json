@@ -1,0 +1,15 @@
+{
+  "_synthetic": "Synthetic Horizon POST /transactions submission-failure body. Not a real transaction.",
+  "type": "https://stellar.org/horizon-errors/transaction_failed",
+  "title": "Transaction Failed",
+  "status": 400,
+  "detail": "The transaction failed when submitted to the stellar network.",
+  "extras": {
+    "envelope_xdr": "AAAAAgAAAAA...synthetic...",
+    "result_xdr": "AAAAAAAAAAD/////AAAAAQAAAAAAAAAB/////gAAAAA=",
+    "result_codes": {
+      "transaction": "tx_failed",
+      "operations": ["op_no_trust"]
+    }
+  }
+}

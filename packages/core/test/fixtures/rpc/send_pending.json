@@ -1,0 +1,7 @@
+{
+  "_synthetic": "Synthetic stellar-rpc sendTransaction result payload. Not a real transaction.",
+  "status": "PENDING",
+  "hash": "5555555555555555555555555555555555555555555555555555555555555555",
+  "latestLedger": 1000014,
+  "latestLedgerCloseTime": "1704068200"
+}

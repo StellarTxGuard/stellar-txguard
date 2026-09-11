@@ -1,0 +1,16 @@
+{
+  "_synthetic": "Synthetic Horizon POST /transactions submission-failure body for a fee-bump transaction whose inner transaction failed. Not a real transaction.",
+  "type": "https://stellar.org/horizon-errors/transaction_failed",
+  "title": "Transaction Failed",
+  "status": 400,
+  "detail": "The transaction failed when submitted to the stellar network.",
+  "extras": {
+    "envelope_xdr": "AAAABQAAAAA...synthetic...",
+    "result_xdr": "AAAAAAAAAMj/////AAAAAQAAAAAAAAAA...synthetic...",
+    "result_codes": {
+      "transaction": "tx_fee_bump_inner_failed",
+      "inner_transaction": "tx_insufficient_balance",
+      "operations": []
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "_synthetic": "Synthetic Horizon fixture for tests. Not a real transaction.",
+  "id": "1111111111111111111111111111111111111111111111111111111111111111",
+  "hash": "1111111111111111111111111111111111111111111111111111111111111111",
+  "ledger": 1000001,
+  "created_at": "2024-01-01T00:00:00Z",
+  "source_account": "GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "source_account_sequence": "4611686018427388001",
+  "successful": true,
+  "fee_charged": "100",
+  "max_fee": "100",
+  "operation_count": 1,
+  "envelope_xdr": "AAAAAgAAAAA...synthetic...",
+  "result_xdr": "AAAAAAAAAGQAAAAA...synthetic...",
+  "result_meta_xdr": "AAAAAwAAAAA...synthetic...",
+  "memo_type": "none",
+  "preconditions": {
+    "timebounds": {
+      "min_time": "0",
+      "max_time": "0"
+    }
+  }
+}
