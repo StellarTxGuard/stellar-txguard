@@ -2,7 +2,12 @@
 // generate synthetic accounts for test fixtures below. Not part of the
 // published package — StellarTxGuard never needs to construct addresses,
 // only read them out of already-decoded XDR.
-import crypto from "node:crypto";
+//
+// Everything here is deterministic and pure: the same input byte always
+// produces the exact same address, on every run, on every machine. This is
+// deliberate — the checked-in fixtures.json this feeds (via
+// generate-fixtures.mjs) must be byte-for-byte reproducible, so nothing in
+// this file uses randomness.
 
 const B32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 const ED25519_PUBLIC_KEY_VERSION_BYTE = 6 << 3; // 48 ('G' prefix)
@@ -38,12 +43,35 @@ function crc16xmodem(bytes) {
   return crc;
 }
 
-/** Generates a random, structurally-valid (checksum-correct) "G..." address. */
-export function randomAccountId() {
-  const payload = crypto.randomBytes(32);
-  const versioned = Buffer.concat([Buffer.from([ED25519_PUBLIC_KEY_VERSION_BYTE]), payload]);
+/**
+ * Encodes a 32-byte ed25519 public key payload as a checksum-valid "G..."
+ * StrKey address. Pure and deterministic: the same `payload` bytes always
+ * produce the same address.
+ *
+ * @param {Uint8Array} payload Exactly 32 bytes.
+ * @returns {string}
+ */
+export function encodeAccountId(payload) {
+  const versioned = Buffer.concat([
+    Buffer.from([ED25519_PUBLIC_KEY_VERSION_BYTE]),
+    Buffer.from(payload),
+  ]);
   const crc = crc16xmodem(versioned);
   const crcBuf = Buffer.alloc(2);
   crcBuf.writeUInt16LE(crc, 0);
   return base32Encode(Buffer.concat([versioned, crcBuf]));
+}
+
+/**
+ * A fixed, deterministic, checksum-valid "G..." address built from a
+ * single repeated byte value — e.g. `deterministicAccountId(0x11)` always
+ * returns the same address. An obviously-synthetic placeholder pattern,
+ * consistent with this project's other fixtures (see
+ * `packages/core/test/fixtures/README.md`).
+ *
+ * @param {number} byteValue A single byte, 0-255.
+ * @returns {string}
+ */
+export function deterministicAccountId(byteValue) {
+  return encodeAccountId(new Uint8Array(32).fill(byteValue));
 }

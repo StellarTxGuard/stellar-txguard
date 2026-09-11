@@ -6,23 +6,38 @@
 // script*, using the official `@stellar/stellar-xdr-json` encoder — it is
 // not captured from any real network traffic, and none of the account
 // addresses, hashes, or ledger data it contains correspond to a real
-// Stellar account or transaction. Addresses are random-but-checksum-valid
-// StrKeys (see strkey.mjs); this exists only so the resulting XDR is
+// Stellar account or transaction. Addresses and hashes are fixed,
+// deterministic, checksum-valid placeholders (see strkey.mjs and
+// `fixedHex` below) — this exists only so the resulting XDR is
 // structurally valid enough for stellar-xdr-json to accept and decode.
+//
+// Deliberately deterministic: this script uses no randomness anywhere, so
+// running it twice in a row (or on two different machines) produces a
+// byte-for-byte identical fixtures.json. If a change to this script
+// legitimately changes the fixtures, re-run it and commit the result —
+// `git diff` on fixtures.json should otherwise always be empty.
 import { writeFileSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
-import crypto from "node:crypto";
 
-import { randomAccountId } from "./strkey.mjs";
+import { deterministicAccountId } from "./strkey.mjs";
 
 const require = createRequire(import.meta.url);
 const { initSync, encode } = await import("@stellar/stellar-xdr-json");
 initSync(readFileSync(require.resolve("@stellar/stellar-xdr-json/stellar_xdr_json_bg.wasm")));
 
-const source = randomAccountId();
-const feeSource = randomAccountId();
-const dest = randomAccountId();
+// Each identifier below is derived from a distinct fixed byte so they're
+// all trivially distinguishable from one another and from the repeated-
+// character placeholders used elsewhere in this project (see
+// packages/core/test/fixtures/README.md).
+const source = deterministicAccountId(0x11);
+const feeSource = deterministicAccountId(0x22);
+const dest = deterministicAccountId(0x33);
+
+/** A fixed 32-byte value (64 hex chars), e.g. fixedHex(0xaa) => "aaaa...aa". */
+function fixedHex(byteValue) {
+  return byteValue.toString(16).padStart(2, "0").repeat(32);
+}
 
 function encodeResult(result) {
   return encode(
@@ -33,10 +48,6 @@ function encodeResult(result) {
 
 function innerResult(result) {
   return { fee_charged: "0", result, ext: "v0" };
-}
-
-function randomHash() {
-  return crypto.randomBytes(32).toString("hex");
 }
 
 const results = {
@@ -67,19 +78,19 @@ const results = {
   }),
   fee_bump_success: encodeResult({
     tx_fee_bump_inner_success: {
-      transaction_hash: randomHash(),
+      transaction_hash: fixedHex(0xaa),
       result: innerResult({ tx_success: [] }),
     },
   }),
   fee_bump_failed_bad_seq: encodeResult({
     tx_fee_bump_inner_failed: {
-      transaction_hash: randomHash(),
+      transaction_hash: fixedHex(0xbb),
       result: innerResult("tx_bad_seq"),
     },
   }),
   fee_bump_failed_payment_underfunded: encodeResult({
     tx_fee_bump_inner_failed: {
-      transaction_hash: randomHash(),
+      transaction_hash: fixedHex(0xcc),
       result: innerResult({
         tx_failed: [{ op_inner: { payment: "underfunded" } }],
       }),
@@ -153,7 +164,7 @@ const envelopes = {
   legacy_v0: encodeEnvelope({
     tx_v0: {
       tx: {
-        source_account_ed25519: crypto.randomBytes(32).toString("hex"),
+        source_account_ed25519: fixedHex(0xdd),
         fee: 100,
         seq_num: "4611686018427388001",
         memo: "none",
@@ -167,7 +178,7 @@ const envelopes = {
 
 const fixtures = {
   _synthetic:
-    "Every XDR value below was generated locally by generate-fixtures.mjs using @stellar/stellar-xdr-json's encoder. None of it is captured from real network traffic; addresses and hashes are random placeholders.",
+    "Every XDR value below was generated locally by generate-fixtures.mjs using @stellar/stellar-xdr-json's encoder. None of it is captured from real network traffic; addresses and hashes are fixed, deterministic synthetic placeholders (not random) — running this script always produces this exact file, byte for byte.",
   accounts: { source, feeSource, dest },
   results,
   envelopes,
