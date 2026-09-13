@@ -42,6 +42,6 @@ export async function runInspect(args, print, printError, fetchImpl) {
     fetchImpl,
   });
 
-  print(formatInspection(normalized, { source: sourceDescription }));
+  print(formatInspection(normalized, { source: sourceDescription, json: args.json }));
   return EXIT_CODE.OK;
 }
