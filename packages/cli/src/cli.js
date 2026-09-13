@@ -50,7 +50,8 @@ Evaluation context (inspect, retry-safety) — evidence only you can supply:
   --moves-funds <true|false>    Whether the operation moves value (default true).
 
 Other options:
-  --json          Machine-readable output (the underlying result object as JSON).
+  --json          Machine-readable JSON on stdout only (no extra text).
+                  Errors still go to stderr.
   --help, -h      Show this help.
   --version       Show the CLI version.
 

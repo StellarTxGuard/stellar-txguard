@@ -5,6 +5,9 @@
  * `fetchImpl` is injectable so tests can run without real network access;
  * it defaults to the global `fetch` (available in Node 18+).
  */
+
+import { formatUnreachableError } from "./networkError.js";
+
 export class HorizonRequestError extends Error {
   constructor(message, { cause } = {}) {
     super(message);
@@ -37,7 +40,7 @@ export async function fetchHorizonTransaction(horizonUrl, hash, options = {}) {
   try {
     response = await fetchImpl(url);
   } catch (cause) {
-    throw new HorizonRequestError(`Could not reach Horizon at ${horizonUrl}: ${cause.message}`, {
+    throw new HorizonRequestError(formatUnreachableError("Horizon", horizonUrl, cause), {
       cause,
     });
   }

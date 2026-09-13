@@ -13,13 +13,25 @@ const HASH_PATTERN = /^[0-9a-fA-F]{64}$/;
  * SHA-256 digest). Checking this before making a network request turns an
  * obviously-wrong hash into a clear, immediate usage error instead of a
  * confusing 404 or RPC error a request later.
+ *
+ * The thrown message always names the value that was received and why it
+ * was rejected, so a typo is diagnosable without guessing.
  */
 export function validateHash(hash) {
-  if (!HASH_PATTERN.test(hash)) {
-    throw new Error(
-      `"${hash}" is not a valid transaction hash (expected 64 hexadecimal characters).`,
-    );
+  if (typeof hash === "string" && HASH_PATTERN.test(hash)) {
+    return;
   }
+
+  const received = JSON.stringify(hash);
+  let reason;
+  if (typeof hash !== "string") {
+    reason = `expected a string of 64 hexadecimal characters, received ${typeof hash}`;
+  } else if (hash.length !== 64) {
+    reason = `expected exactly 64 hexadecimal characters, received ${hash.length}`;
+  } else {
+    reason = "expected only hexadecimal characters (0-9, a-f)";
+  }
+  throw new Error(`${received} is not a valid transaction hash (${reason}).`);
 }
 
 export function resolveSource(args) {
@@ -48,7 +60,9 @@ export function buildContextFromArgs(args) {
     // so a bad value is rejected before any network request is made.
     const error = describeSequenceError(args.currentSequence);
     if (error) {
-      throw new Error(`--current-sequence ${error}.`);
+      throw new Error(
+        `--current-sequence received ${JSON.stringify(args.currentSequence)}: ${error}.`,
+      );
     }
     context.currentSequence = args.currentSequence;
   }
@@ -56,7 +70,12 @@ export function buildContextFromArgs(args) {
     context.verifiedNoPriorSuccess = true;
   }
   if (args.movesFunds !== undefined) {
-    context.movesFunds = args.movesFunds !== "false";
+    if (args.movesFunds !== "true" && args.movesFunds !== "false") {
+      throw new Error(
+        `--moves-funds received ${JSON.stringify(args.movesFunds)}: expected "true" or "false".`,
+      );
+    }
+    context.movesFunds = args.movesFunds === "true";
   }
   return context;
 }

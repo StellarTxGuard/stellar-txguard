@@ -58,6 +58,11 @@ export function formatRetrySafetyReport(result, meta = {}) {
  * @returns {string}
  */
 export function formatInspection(normalized, meta = {}) {
+  // --json must be parseable as a single JSON value with nothing else on
+  // stdout. The "Source: …" prefix is human-mode only.
+  if (meta.json) {
+    return JSON.stringify(normalized, null, 2);
+  }
   const lines = [];
   if (meta.source) {
     lines.push(`Source: ${meta.source}`);

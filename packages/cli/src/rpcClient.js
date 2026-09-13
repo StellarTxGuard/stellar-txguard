@@ -6,6 +6,9 @@
  * `fetchImpl` is injectable so tests can run without real network access;
  * it defaults to the global `fetch` (available in Node 18+).
  */
+
+import { formatUnreachableError } from "./networkError.js";
+
 export class RpcRequestError extends Error {
   constructor(message, { cause } = {}) {
     super(message);
@@ -48,7 +51,7 @@ export async function fetchRpcTransaction(rpcUrl, hash, options = {}) {
       }),
     });
   } catch (cause) {
-    throw new RpcRequestError(`Could not reach RPC endpoint at ${rpcUrl}: ${cause.message}`, {
+    throw new RpcRequestError(formatUnreachableError("RPC", rpcUrl, cause), {
       cause,
     });
   }

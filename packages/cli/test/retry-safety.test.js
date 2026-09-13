@@ -54,7 +54,10 @@ test("retry-safety: --json outputs the exact evaluator result shape", async () =
   const code = await runCli(["retry-safety", HASH, "--json"], { ...io, fetchImpl });
 
   assert.equal(code, EXIT_CODE.OK);
-  const parsed = JSON.parse(io.out.join("\n"));
+  assert.equal(io.err.join(""), "");
+  const text = io.out.join("\n");
+  assert.ok(!text.includes("Decision:"), "--json must not mix the human report into stdout");
+  const parsed = JSON.parse(text);
   assert.deepEqual(Object.keys(parsed).sort(), [
     "confidence",
     "decision",
@@ -96,8 +99,52 @@ test("retry-safety: network failure is a runtime error, exit code 1, no stack tr
   const code = await runCli(["retry-safety", HASH], { ...io, fetchImpl });
 
   assert.equal(code, EXIT_CODE.ERROR);
+  assert.equal(io.out.join(""), "");
   const message = io.err.join("\n");
   assert.ok(message.includes("Could not reach Horizon"));
+  assert.ok(message.includes("connection refused"));
+  assert.ok(message.includes("--horizon-url"));
+  assert.ok(!message.includes("connect ECONNREFUSED"), "should not dump the raw fetch error");
+  assert.ok(!/\n\s+at\s/.test(message), "should not leak a stack trace by default");
+});
+
+test("retry-safety: a timed-out Horizon request is a clear timeout error, not a raw abort", async () => {
+  const io = capture();
+  const fetchImpl = async () => {
+    const error = new Error("The operation was aborted due to timeout");
+    error.name = "TimeoutError";
+    throw error;
+  };
+
+  const code = await runCli(["retry-safety", HASH, "--json"], { ...io, fetchImpl });
+
+  assert.equal(code, EXIT_CODE.ERROR);
+  assert.equal(io.out.join(""), "", "--json errors must not write partial JSON to stdout");
+  const message = io.err.join("\n");
+  assert.ok(message.includes("Could not reach Horizon"));
+  assert.match(message, /timed out/);
+  assert.ok(message.includes("--horizon-url"));
+  assert.ok(!/\n\s+at\s/.test(message), "should not leak a stack trace by default");
+});
+
+test("retry-safety: an unreachable RPC endpoint is an actionable stderr error", async () => {
+  const io = capture();
+  const fetchImpl = async () => {
+    throw new Error("getaddrinfo ENOTFOUND");
+  };
+
+  const code = await runCli(
+    ["retry-safety", HASH, "--rpc-url", "https://rpc.example.invalid"],
+    { ...io, fetchImpl },
+  );
+
+  assert.equal(code, EXIT_CODE.ERROR);
+  assert.equal(io.out.join(""), "");
+  const message = io.err.join("\n");
+  assert.ok(message.includes("Could not reach RPC endpoint"));
+  assert.ok(message.includes("https://rpc.example.invalid"));
+  assert.ok(message.includes("host not found"));
+  assert.ok(message.includes("--rpc-url"));
   assert.ok(!/\n\s+at\s/.test(message), "should not leak a stack trace by default");
 });
 
@@ -113,7 +160,11 @@ test("retry-safety: invalid transaction hash is rejected before any network call
 
   assert.equal(code, EXIT_CODE.ERROR);
   assert.equal(called, false);
-  assert.ok(io.err.join("\n").includes("not a valid transaction hash"));
+  assert.equal(io.out.join(""), "");
+  const message = io.err.join("\n");
+  assert.ok(message.includes("not-a-hash"));
+  assert.ok(message.includes("not a valid transaction hash"));
+  assert.ok(message.includes("64"));
 });
 
 test("retry-safety: missing hash argument is a usage error", async () => {
@@ -187,7 +238,11 @@ test("retry-safety: --current-sequence rejects a non-integer value before any ne
 
   assert.equal(code, EXIT_CODE.ERROR);
   assert.equal(called, false);
-  assert.ok(io.err.join("\n").includes("--current-sequence"));
+  assert.equal(io.out.join(""), "");
+  const message = io.err.join("\n");
+  assert.ok(message.includes("--current-sequence"));
+  assert.ok(message.includes("123.45"));
+  assert.ok(message.includes("not a valid Stellar sequence number"));
 });
 
 test("retry-safety: --current-sequence rejects a negative value before any network call", async () => {
@@ -198,14 +253,20 @@ test("retry-safety: --current-sequence rejects a negative value before any netwo
     throw new Error("should not be called");
   };
 
-  const code = await runCli(["retry-safety", HASH, "--current-sequence", "-5"], {
+  // A standalone "-5" token is parsed as another flag (`--current-sequence=-5`
+  // is how a leading-dash value has to be written for parseArgs).
+  const code = await runCli(["retry-safety", HASH, "--current-sequence=-5"], {
     ...io,
     fetchImpl,
   });
 
   assert.equal(code, EXIT_CODE.ERROR);
   assert.equal(called, false);
-  assert.ok(io.err.join("\n").includes("--current-sequence"));
+  assert.equal(io.out.join(""), "");
+  const message = io.err.join("\n");
+  assert.ok(message.includes("--current-sequence"));
+  assert.ok(message.includes("-5"));
+  assert.ok(message.includes("not a valid Stellar sequence number"));
 });
 
 test("retry-safety: --current-sequence rejects a value with an implicit-conversion-style format (leading zero)", async () => {
@@ -213,7 +274,46 @@ test("retry-safety: --current-sequence rejects a value with an implicit-conversi
   const code = await runCli(["retry-safety", HASH, "--current-sequence", "0123"], io);
 
   assert.equal(code, EXIT_CODE.ERROR);
-  assert.ok(io.err.join("\n").includes("--current-sequence"));
+  assert.equal(io.out.join(""), "");
+  const message = io.err.join("\n");
+  assert.ok(message.includes("--current-sequence"));
+  assert.ok(message.includes("0123"));
+  assert.ok(message.includes("not a valid Stellar sequence number"));
+});
+
+test("retry-safety: --moves-funds rejects a value that is not true or false", async () => {
+  const io = capture();
+  let called = false;
+  const fetchImpl = async () => {
+    called = true;
+    throw new Error("should not be called");
+  };
+
+  const code = await runCli(["retry-safety", HASH, "--moves-funds", "maybe"], {
+    ...io,
+    fetchImpl,
+  });
+
+  assert.equal(code, EXIT_CODE.ERROR);
+  assert.equal(called, false);
+  assert.equal(io.out.join(""), "");
+  const message = io.err.join("\n");
+  assert.ok(message.includes("--moves-funds"));
+  assert.ok(message.includes("maybe"));
+  assert.ok(message.includes("true") && message.includes("false"));
+});
+
+test("retry-safety: --json of an UNKNOWN decision is still parseable JSON, exit 2", async () => {
+  const io = capture();
+  const fetchImpl = async () => ({ ok: false, status: 404, json: async () => ({}) });
+
+  const code = await runCli(["retry-safety", HASH, "--json"], { ...io, fetchImpl });
+
+  assert.equal(code, EXIT_CODE.UNKNOWN_RESULT);
+  assert.equal(io.err.join(""), "");
+  const parsed = JSON.parse(io.out.join("\n"));
+  assert.equal(parsed.decision, "UNKNOWN");
+  assert.equal(parsed.risk, "UNCERTAIN_SUBMISSION");
 });
 
 test("retry-safety: --source rpc without --rpc-url is a clear usage error", async () => {
